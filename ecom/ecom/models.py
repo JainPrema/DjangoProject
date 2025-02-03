@@ -6,6 +6,11 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    default_shipping_address = models.ForeignKey(
+        "ShippingAddress",
+        on_delete=models.DO_NOTHING,
+        null=True,
+        related_query_name="user_info")
 
     def __str__(self):
         return self.name
@@ -24,4 +29,6 @@ class Address(models.Model):
 class ShippingAddress(Address):
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+        related_name='shipping_addresses'
+    )
